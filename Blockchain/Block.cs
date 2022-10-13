@@ -61,11 +61,11 @@ namespace Blockchain
         /// <exception cref="ArgumentNullException"></exception>
         public Block(string data, string user, Block block)
         {
-            if(string.IsNullOrWhiteSpace(data)) throw new ArgumentNullException("Empty data argument", nameof(data));
+            if(string.IsNullOrWhiteSpace(data)) throw new ArgumentNullException(nameof(data), "Empty data argument");
 
-            if (string.IsNullOrWhiteSpace(user)) throw new ArgumentNullException("Empty user argument", nameof(user));
+            if (string.IsNullOrWhiteSpace(user)) throw new ArgumentNullException(nameof(user), "Empty user argument");
 
-            if (block == null) throw new ArgumentNullException("Empty block argument", nameof(block));
+            if (block == null) throw new ArgumentNullException(nameof(block), "Empty block argument");
 
             Data = data;
             User = user;
