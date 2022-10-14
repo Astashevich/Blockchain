@@ -1,13 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace Blockchain
 {
     /// <summary>
     /// A block from a chain of blocks.
     /// </summary>
+    [DataContract]
     public class Block
     {
         /// <summary>
@@ -19,26 +22,31 @@ namespace Blockchain
         /// <summary>
         /// Block data.
         /// </summary>
+        [DataMember]
         public string Data { get; private set; }
 
         /// <summary>
         /// The moment the block was created.
         /// </summary>
+        [DataMember]
         public DateTime Created { get; private set; }
 
         /// <summary>
         /// Block hash.
         /// </summary>
+        [DataMember]
         public string Hash { get; private set; }
 
         /// <summary>
         /// Previous block hash.
         /// </summary>
+        [DataMember]
         public string PreviousHash { get; private set; }
 
         /// <summary>
         /// ID of the user who created the block.
         /// </summary>
+        [DataMember]
         public string User { get; private set; }
 
         /// <summary>
@@ -117,6 +125,38 @@ namespace Blockchain
         public override string ToString()
         {
             return Data;
+        }
+
+        /// <summary>
+        /// Serialize object to JSON.
+        /// </summary>
+        /// <returns> JSON of Block. </returns>
+        private string Serialize()
+        {
+            var jsonSerializer = new DataContractJsonSerializer(typeof(Block));
+
+            using(var ms = new MemoryStream())
+            {
+                jsonSerializer.WriteObject(ms, this);
+                var result = Encoding.UTF8.GetString(ms.ToArray());
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// Deserialize JSON to Block object.
+        /// </summary>
+        /// <param name="json"></param>
+        /// <returns></returns>
+        private Block Deserialize(string json)
+        {
+            var jsonSerializer = new DataContractJsonSerializer(typeof(Block));
+
+            using (var ms = new MemoryStream(Encoding.UTF8.GetBytes(json)))
+            {
+                var result = (Block)jsonSerializer.ReadObject(ms);
+                return result;
+            }
         }
     }
 }
