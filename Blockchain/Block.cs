@@ -1,4 +1,6 @@
-﻿using System.Security.Cryptography;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Blockchain
@@ -11,6 +13,7 @@ namespace Blockchain
         /// <summary>
         /// Identificator.
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; private set; }
 
         /// <summary>

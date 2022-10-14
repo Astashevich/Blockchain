@@ -11,10 +11,7 @@
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            foreach(var block in _chain.Blocks)
-            {
-                listBox1.Items.Add(block);
-            }
+            listBox1.Items.AddRange(_chain.Blocks.ToArray());
         }
 
         private void buttonAdd_Click(object sender, EventArgs e)
@@ -23,10 +20,7 @@
 
             _chain.Add(textBox1.Text, "Admin");
 
-            foreach (var block in _chain.Blocks)
-            {
-                listBox1.Items.Add(block);
-            }
+            listBox1.Items.AddRange(_chain.Blocks.ToArray());
         }
     }
 }
